@@ -8624,6 +8624,50 @@
         ]
       }
     },
+    "/view/folder/stats": {
+      "get": {
+        "operationId": "getFolderStats",
+        "parameters": [
+          {
+            "name": "path",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/FolderStatsResponseDto"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "cookie": []
+          },
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "View"
+        ]
+      }
+    },
     "/view/folder/unique-paths": {
       "get": {
         "operationId": "getUniqueOriginalPaths",
@@ -10571,6 +10615,34 @@
           "minFaces",
           "minScore",
           "modelName"
+        ],
+        "type": "object"
+      },
+      "FolderStatsResponseDto": {
+        "properties": {
+          "assetCount": {
+            "type": "number"
+          },
+          "lastModified": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "totalSize": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "assetCount",
+          "lastModified",
+          "name",
+          "path",
+          "totalSize"
         ],
         "type": "object"
       },

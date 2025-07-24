@@ -128,10 +128,34 @@ export const albumViewSettings = persisted<AlbumViewSettings>('album-view-settin
   collapsedGroups: {},
 });
 
+export enum FolderViewMode {
+  Thumbnail = 'Thumbnail',
+  List = 'List',
+}
+
+export enum FolderSortBy {
+  Name = 'Name',
+  AssetCount = 'AssetCount',
+  TotalSize = 'TotalSize',
+  LastModified = 'LastModified',
+}
+
+export interface FolderViewSettings {
+  view: FolderViewMode;
+  sortBy: FolderSortBy;
+  sortOrder: SortOrder;
+}
+
 export enum PlacesGroupBy {
   None = 'None',
   Country = 'Country',
 }
+
+export const folderViewSettings = persisted<FolderViewSettings>('folder-view-settings', {
+  view: FolderViewMode.Thumbnail,
+  sortBy: FolderSortBy.Name,
+  sortOrder: SortOrder.Asc,
+});
 
 export const placesViewSettings = persisted<PlacesViewSettings>('places-view-settings', {
   groupBy: PlacesGroupBy.None,

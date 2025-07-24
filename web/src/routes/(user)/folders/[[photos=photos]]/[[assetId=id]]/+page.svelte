@@ -17,6 +17,8 @@
   import ButtonContextMenu from '$lib/components/shared-components/context-menu/button-context-menu.svelte';
   import GalleryViewer from '$lib/components/shared-components/gallery-viewer/gallery-viewer.svelte';
   import Breadcrumbs from '$lib/components/shared-components/tree/breadcrumbs.svelte';
+  import FolderControls from '$lib/components/shared-components/tree/folder-controls.svelte';
+  import FolderList from '$lib/components/shared-components/tree/folder-list.svelte';
   import TreeItemThumbnails from '$lib/components/shared-components/tree/tree-item-thumbnails.svelte';
   import TreeItems from '$lib/components/shared-components/tree/tree-items.svelte';
   import Sidebar from '$lib/components/sidebar/sidebar.svelte';
@@ -24,6 +26,7 @@
   import { AssetInteraction } from '$lib/stores/asset-interaction.svelte';
   import type { Viewport } from '$lib/managers/timeline-manager/types';
   import { foldersStore } from '$lib/stores/folders.svelte';
+  import { folderViewSettings, FolderViewMode } from '$lib/stores/preferences.store';
   import { preferences } from '$lib/stores/user.store';
   import { cancelMultiselect } from '$lib/utils/asset-utils';
   import { toTimelineAsset } from '$lib/utils/timeline-util';
@@ -97,8 +100,20 @@
 
   <Breadcrumbs node={data.tree} icon={mdiFolderHome} title={$t('folders')} getLink={getLinkForPath} />
 
+  <!-- Folder Controls -->
+  {#if data.tree.children.length > 0}
+    <div class="flex gap-2 items-center justify-end p-2">
+      <FolderControls />
+    </div>
+  {/if}
+
   <section class="mt-2 h-[calc(100%-(--spacing(20)))] overflow-auto immich-scrollbar">
-    <TreeItemThumbnails items={data.tree.children} icon={mdiFolder} onClick={handleNavigateToFolder} />
+    <!-- Folder View -->
+    {#if $folderViewSettings.view === FolderViewMode.List}
+      <FolderList items={data.tree.children} path={data.tree.path} onClick={handleNavigateToFolder} />
+    {:else}
+      <TreeItemThumbnails items={data.tree.children} icon={mdiFolder} onClick={handleNavigateToFolder} />
+    {/if}
 
     <!-- Assets -->
     {#if data.pathAssets && data.pathAssets.length > 0}

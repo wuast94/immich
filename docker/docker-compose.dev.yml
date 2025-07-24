@@ -33,6 +33,7 @@ services:
       - ${UPLOAD_LOCATION}/photos/upload:/usr/src/app/upload/upload
       - /usr/src/app/server/node_modules
       - /etc/localtime:/etc/localtime:ro
+      - /someexternalLibrary:/external:ro
     env_file:
       - .env
     environment:
